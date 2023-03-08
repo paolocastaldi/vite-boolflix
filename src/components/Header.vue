@@ -5,14 +5,30 @@
                 BOOLFLIX
             </div>
 
-            <input type="text" placeholder="Cerca per nome">
+
+            <div>
+                <input type="text" placeholder="Cerca per nome" @keyup.enter="$emit('onSearch')" v-model="store.search">
+                <button @click="$event => $emit('onSearch')">Cerca</button>
+
+            </div>
+
+
+
+
         </div>
     </header>
 </template>
   
   
 <script>
+import store from './store'
 export default {
+    data() {
+        return {
+            store,
+
+        }
+    },
 
 }
 </script>
