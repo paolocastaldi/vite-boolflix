@@ -2,12 +2,7 @@
     <main>
         <div class="container">
             <ul class="grid">
-                <li Card v-for="movie in store.movies" :key="movie.id">
-                    <h3>{{ movie.title }}</h3>
-                    <h4>{{ movie.original_title }}</h4>
-                    <p>{{ movie.language }}</p>
-                    <p>{{ movie.vote_average }}</p>
-                </li>
+                <Cards v-for="movie in movies" :key="movie.id" :item="movie" />
             </ul>
         </div>
     </main>
@@ -15,10 +10,10 @@
   
 <script>
 import store from './store'
-import Card from './Cards.vue'
+import Cards from './Cards.vue'
 export default {
     components: {
-        Card
+        Cards
     },
     data() {
         return {

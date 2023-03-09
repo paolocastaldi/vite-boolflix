@@ -26,10 +26,14 @@ export default {
     data() {
         return {
             store,
-
+            localSearch: ''
         }
     },
-
+    methods: {
+        setSearch() {
+            this.store.search = this.localSearch
+        }
+    }
 }
 </script>
   
