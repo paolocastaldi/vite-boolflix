@@ -1,39 +1,55 @@
 <template>
   <div>
-    <Header @onSearch="fetchData" />
+    <Header />
     <Main />
   </div>
 </template>
 
-
 <script>
 import Header from './components/Header.vue';
 import Main from './components/Main.vue';
-import Cards from './components/Cards.vue';
 import store from './components/store';
-import axios from 'axios'
-
+import axios from 'axios';
 export default {
   components: {
-    Header,
     Main,
+    Header
+  },
+  data() {
+    return {
+      store: store
+    }
+  },
+  computed: {
+    API_KEY() {
+      return this.store.config.API_KEY
+    },
+    BASE_URI() {
+      return this.store.config.BASE_URI
+    },
+    search() {
+      return this.store.search
+    },
+    moviesEndpoint() {
+      return this.BASE_URI + '/search/movie'
+    }
+  },
+  watch: {
+    search(newVal, oldVal) {
+      this.fetchData()
+    }
   },
   methods: {
     fetchData() {
       console.log('fetch data')
-
       this.fetchMovies()
 
     },
     fetchMovies() {
-
-      const url = this.store.config.BASE_URI + '/search/movie'
-
-
-      axios.get(url, {
+      axios.get(this.moviesEndpoint, {
         params: {
-          api_key: this.store.config.API_KEY,
-          query: this.store.search,
+          api_key: this.API_KEY,
+          query: this.search,
           language: 'it-IT'
         }
       }).then(res => {
@@ -44,12 +60,10 @@ export default {
       }).catch(() => {
         this.store.movies = []
       })
-
     }
   }
 
 }
 </script>
 
-
-<style lang="scss"></style>
+<style lang="scss" ></style>
