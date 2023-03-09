@@ -10,6 +10,7 @@ import Header from './components/Header.vue';
 import Main from './components/Main.vue';
 import store from './components/store';
 import axios from 'axios';
+
 export default {
   components: {
     Main,
@@ -32,10 +33,14 @@ export default {
     },
     moviesEndpoint() {
       return this.BASE_URI + '/search/movie'
+    },
+    tvsEndpoint() {
+      return this.BASE_URI + '/search/tv'
     }
   },
   watch: {
     search(newVal, oldVal) {
+      // console.log(newVal,oldVal)
       this.fetchData()
     }
   },
@@ -43,7 +48,23 @@ export default {
     fetchData() {
       console.log('fetch data')
       this.fetchMovies()
-
+      this.fetchTVs()
+    },
+    fetchTVs() {
+      axios.get(this.tvsEndpoint, {
+        params: {
+          api_key: this.API_KEY,
+          query: this.search,
+          language: 'it-IT'
+        }
+      }).then((res) => {
+        console.log(res)
+        const { results } = res.data
+        this.store.tv = results
+        console.log(this.store.tv)
+      }).catch(() => {
+        this.store.tv = []
+      })
     },
     fetchMovies() {
       axios.get(this.moviesEndpoint, {
@@ -55,6 +76,7 @@ export default {
       }).then(res => {
         console.log(res)
         const { results } = res.data
+        // const results = res.data.results
         this.store.movies = results
         console.log(this.store.movies)
       }).catch(() => {
