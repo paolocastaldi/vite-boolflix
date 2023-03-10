@@ -40,12 +40,20 @@ export default {
                     originalTitle: isMovie ? item.original_title : item.original_name,
                     language: item.original_language,
                     vote: item.vote_average,
+                    convertedVote:
+                        this.convertVote(item.vote_average),
                     flag: this.flags[item.original_language],
                     overview: item.overview,
+                    posterSrc: item.poster_path ? 'https://image.tmdb.org/t/p/w342' + item.poster_path : '/poster_placeholder.jpg',
 
                     isMovie: isMovie,
                 }
             })
+        }
+    },
+    methods: {
+        convertVote(vote) {
+            return Math.round(vote / 2)
         }
     }
 }
